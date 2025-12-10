@@ -80,7 +80,7 @@
 <h1>Fill the Bucket!</h1>
 
 <div class="game-container">
-    <p>Guess correctly 3 times in a row to fill the bucket!</p>
+    <p>Guess the number correctly 5 times in a row to fill the bucket!</p>
 
     <div class="buttons">
         <button onclick="playerGuess(1)">1</button>
@@ -115,7 +115,7 @@
         water.style.height = heightPercent + "%";
 
         // Win condition
-        if (streak >= 3) {
+        if (streak >= 5) {
             status.textContent = "You filled the bucket! You win!";
         }
     }
