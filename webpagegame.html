@@ -67,6 +67,35 @@
         transition: height 0.6s ease;
     }
 
+    /* Splash animation */
+    .splash {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        background: #1e90ff;
+        border-radius: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        animation: splashUp 0.7s ease-out forwards;
+    }
+
+    @keyframes splashUp {
+        0% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0) scale(1);
+        }
+        60% {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-60px) scale(1.3);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-90px) scale(0.5);
+        }
+    }
+
     #status {
         margin-top: 20px;
         font-size: 1.4rem;
@@ -87,7 +116,7 @@
         <button onclick="playerGuess(2)">2</button>
     </div>
 
-    <div class="bucket-container">
+    <div class="bucket-container" id="bucket">
         <div class="water" id="water"></div>
     </div>
 
@@ -101,20 +130,29 @@
         const randomNum = Math.random() < 0.5 ? 1 : 2;
         const status = document.getElementById("status");
         const water = document.getElementById("water");
+        const bucket = document.getElementById("bucket");
 
         if (num === randomNum) {
             streak++;
             status.textContent = `Correct! Streak: ${streak}`;
+
+            // Create splash animation
+            const splash = document.createElement("div");
+            splash.classList.add("splash");
+            bucket.appendChild(splash);
+
+            // Remove splash after animation completes
+            setTimeout(() => splash.remove(), 700);
+
         } else {
             streak = Math.max(0, streak - 1);
             status.textContent = `Wrong! The bucket leaked... Streak: ${streak}`;
         }
 
-        // Update bucket water level (now based on 5 correct guesses)
-        let heightPercent = (streak / 5) * 100;
+        // 5 steps = 20% each
+        let heightPercent = streak * 20;
         water.style.height = heightPercent + "%";
 
-        // Win condition
         if (streak >= 5) {
             status.textContent = "You filled the bucket! You win!";
         }
