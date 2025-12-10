@@ -110,8 +110,8 @@
             status.textContent = `Wrong! The bucket leaked... Streak: ${streak}`;
         }
 
-        // Update bucket water level (100% divided into 3 fills)
-        let heightPercent = (streak / 3) * 100;
+        // Update bucket water level (now based on 5 correct guesses)
+        let heightPercent = (streak / 5) * 100;
         water.style.height = heightPercent + "%";
 
         // Win condition
