@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fill the Bucket!</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(#89cff0, #4682b4);
+        font-family: Arial, sans-serif;
+        text-align: center;
+        color: #ffffff;
+    }
+
+    h1 {
+        margin-top: 30px;
+        font-size: 3rem;
+        text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .game-container {
+        margin-top: 40px;
+    }
+
+    .buttons {
+        margin: 20px auto;
+    }
+
+    button {
+        font-size: 1.5rem;
+        padding: 15px 35px;
+        margin: 10px;
+        border: none;
+        border-radius: 10px;
+        background: #ffffff;
+        color: #4682b4;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.1);
+    }
+
+    .bucket-container {
+        width: 200px;
+        height: 250px;
+        border: 5px solid #ffffff;
+        border-radius: 0 0 20px 20px;
+        margin: 40px auto;
+        position: relative;
+        overflow: hidden;
+        background: rgba(255,255,255,0.15);
+    }
+
+    .water {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0%;
+        background: #1e90ff;
+        transition: height 0.6s ease;
+    }
+
+    #status {
+        margin-top: 20px;
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+</style>
+</head>
+<body>
+
+<h1>Fill the Bucket!</h1>
+
+<div class="game-container">
+    <p>Guess correctly 3 times in a row to fill the bucket!</p>
+
+    <div class="buttons">
+        <button onclick="playerGuess(1)">1</button>
+        <button onclick="playerGuess(2)">2</button>
+    </div>
+
+    <div class="bucket-container">
+        <div class="water" id="water"></div>
+    </div>
+
+    <p id="status">Make your first guess!</p>
+</div>
+
+<script>
+    let streak = 0;
+
+    function playerGuess(num) {
+        const randomNum = Math.random() < 0.5 ? 1 : 2;
+        const status = document.getElementById("status");
+        const water = document.getElementById("water");
+
+        if (num === randomNum) {
+            streak++;
+            status.textContent = `Correct! Streak: ${streak}`;
+        } else {
+            streak = Math.max(0, streak - 1);
+            status.textContent = `Wrong! The bucket leaked... Streak: ${streak}`;
+        }
+
+        // Update bucket water level (100% divided into 3 fills)
+        let heightPercent = (streak / 3) * 100;
+        water.style.height = heightPercent + "%";
+
+        // Win condition
+        if (streak >= 3) {
+            status.textContent = "You filled the bucket! You win!";
+        }
+    }
+</script>
+
+</body>
+</html>
